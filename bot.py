@@ -30,7 +30,7 @@ threading.Thread(target=run_server, daemon=True).start()
 TOKEN = os.getenv("BOT_TOKEN")#BOT#
 
 if not TOKEN:
-    raise ValueError("BOT_TOKEN not found in environment variables")
+    print("ERROR: BOT_TOKEN missing")
 
 app = Application.builder().token(TOKEN).build()
 
