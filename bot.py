@@ -7,10 +7,25 @@ from handlers.range_handler import receive_range
 from handlers.done_handler import done
 from handlers.feedback_handler import feedback, receive_feedback
 from dotenv import load_dotenv
-from handlers.done_handler import done
 import os
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 load_dotenv()
+
+# dummy server
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot running")
+
+def run_server():
+    server = HTTPServer(("0.0.0.0", 8080), Handler)
+    server.serve_forever()
+
+
+threading.Thread(target=run_server, daemon=True).start()
 
 TOKEN = os.getenv("BOT_TOKEN")
 
