@@ -2,7 +2,9 @@ import os
 from pdf2docx import Converter
 
 
+
 async def pdf_to_word(update, file_path):
+    from pdf2docx import Converter
 
     output = file_path.replace(".pdf", ".docx")
 
