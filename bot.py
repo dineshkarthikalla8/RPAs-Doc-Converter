@@ -6,8 +6,13 @@ from handlers.file_handler import receive_file
 from handlers.range_handler import receive_range
 from handlers.done_handler import done
 from handlers.feedback_handler import feedback, receive_feedback
+from dotenv import load_dotenv
+from handlers.done_handler import done
+import os
 
-TOKEN = open("token.txt").read().strip()
+load_dotenv()
+
+TOKEN = os.getenv("BOT_TOKEN")
 
 app = Application.builder().token(TOKEN).build()
 
