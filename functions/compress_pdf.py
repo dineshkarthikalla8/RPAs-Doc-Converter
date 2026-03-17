@@ -10,7 +10,6 @@ async def compress_pdf(update, file_path):
 
     command = [
         "gs",
-        "/opt/homebrew/bin/gs",   # <-- replace with your path
         "-sDEVICE=pdfwrite",
         "-dCompatibilityLevel=1.4",
         "-dPDFSETTINGS=/screen",
