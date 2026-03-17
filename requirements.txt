@@ -7,3 +7,4 @@ docx2pdf
 python-dotenv
 pdf2docx
 PyPDF2
+ghostscript
