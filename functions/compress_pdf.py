@@ -1,5 +1,5 @@
 import os
-from pypdf import PdfReader, PdfWriter
+import subprocess
 
 
 async def compress_pdf(update, file_path):
@@ -8,27 +8,43 @@ async def compress_pdf(update, file_path):
 
     await update.message.reply_text("🔄 Compressing PDF...")
 
+    command = [
+        "gs",
+        "-sDEVICE=pdfwrite",
+        "-dCompatibilityLevel=1.4",
+        "-dPDFSETTINGS=/screen",
+        "-dNOPAUSE",
+        "-dQUIET",
+        "-dBATCH",
+        f"-sOutputFile={output}",
+        file_path
+    ]
+
     try:
-        reader = PdfReader(file_path)
-        writer = PdfWriter()
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True
+        )
 
-        for page in reader.pages:
-            page.compress_content_streams()
-            writer.add_page(page)
+        print("STDOUT:", result.stdout)
+        print("STDERR:", result.stderr)
 
-        with open(output, "wb") as f:
-            writer.write(f)
+        if os.path.exists(output):
 
-        with open(output, "rb") as f:
-            await update.message.reply_document(
-                document=f,
-                filename="compressed.pdf",
-                caption="✅ Here is your compressed PDF"
-            )
+            with open(output, "rb") as f:
+                await update.message.reply_document(
+                    document=f,
+                    filename="compressed.pdf",
+                    caption="✅ Here is your compressed PDF"
+                )
+
+        else:
+            await update.message.reply_text("❌ Compression failed.")
 
     except Exception as e:
         print("Compression Error:", e)
-        await update.message.reply_text("❌ Failed in compressing PDF.")
+        await update.message.reply_text("❌ Error compressing PDF.")
 
     finally:
         if os.path.exists(file_path):
