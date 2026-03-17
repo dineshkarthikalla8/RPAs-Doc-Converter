@@ -9,7 +9,6 @@ async def compress_pdf(update, file_path):
     await update.message.reply_text("🔄 Compressing PDF...")
 
     try:
-
         reader = PdfReader(file_path)
         writer = PdfWriter()
 
@@ -29,10 +28,9 @@ async def compress_pdf(update, file_path):
 
     except Exception as e:
         print("Compression Error:", e)
-        await update.message.reply_text("❌ Error compressing PDF.")
+        await update.message.reply_text("❌ Failed in compressing PDF.")
 
     finally:
-
         if os.path.exists(file_path):
             os.remove(file_path)
 
