@@ -64,7 +64,9 @@ app.add_handler(MessageHandler(menu_filter, menu))
 # -------------------------
 # FEEDBACK MESSAGES
 # -------------------------
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, receive_feedback))
+app.add_handler(
+    MessageHandler(filters.TEXT & ~filters.COMMAND & ~menu_filter, receive_feedback)
+)
 
 
 print("Bot Running...")
