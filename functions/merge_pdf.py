@@ -1,4 +1,4 @@
-from pypdf import PdfMerger
+from PyPDF2 import PdfMerger
 import os
 
 
