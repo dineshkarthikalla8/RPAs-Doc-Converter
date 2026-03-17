@@ -21,7 +21,7 @@ async def compress_pdf(update, file_path):
     ]
 
     try:
-        subprocess.run(command, check=True)
+        subprocess.run(command, check=True, capture_output=True)
 
         if os.path.exists(output):
             with open(output, "rb") as f:
