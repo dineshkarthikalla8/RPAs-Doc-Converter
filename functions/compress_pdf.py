@@ -9,7 +9,7 @@ async def compress_pdf(update, file_path):
     await update.message.reply_text("🔄 Compressing PDF...")
 
     command = [
-        "gs",
+        "/opt/homebrew/bin/gs",   # use full path
         "-sDEVICE=pdfwrite",
         "-dCompatibilityLevel=1.4",
         "-dPDFSETTINGS=/screen",
@@ -21,9 +21,8 @@ async def compress_pdf(update, file_path):
     ]
 
     try:
-        result = subprocess.run(command, check=True)
+        subprocess.run(command, check=True)
 
-        # check if output file created
         if os.path.exists(output):
 
             with open(output, "rb") as f:
@@ -34,14 +33,13 @@ async def compress_pdf(update, file_path):
                 )
 
         else:
-            await update.message.reply_text("❌ Compression failed. Please try again.")
+            await update.message.reply_text("❌ Compression failed.")
 
     except Exception as e:
-        await update.message.reply_text("❌ Error compressing PDF.")
         print("Compression Error:", e)
+        await update.message.reply_text("❌ Error compressing PDF.")
 
     finally:
-        # cleanup
         if os.path.exists(file_path):
             os.remove(file_path)
 
