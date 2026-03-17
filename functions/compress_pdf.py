@@ -9,6 +9,7 @@ async def compress_pdf(update, file_path):
     await update.message.reply_text("🔄 Compressing PDF...")
 
     command = [
+        "gs",
         "/opt/homebrew/bin/gs",   # <-- replace with your path
         "-sDEVICE=pdfwrite",
         "-dCompatibilityLevel=1.4",
