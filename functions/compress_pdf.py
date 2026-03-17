@@ -20,28 +20,30 @@ async def compress_pdf(update, file_path):
         file_path
     ]
 
-    subprocess.run(command)
+    try:
+        result = subprocess.run(command, check=True)
 
-    original_size = os.path.getsize(file_path)
-    compressed_size = os.path.getsize(output)
+        # check if output file created
+        if os.path.exists(output):
 
-    # Send whichever file is smaller
-    if compressed_size < original_size:
-        send_file = output
-        caption = "✅ Compressed PDF"
-    else:
-        send_file = file_path
-        caption = "⚠️ File already optimized. Sending original."
+            with open(output, "rb") as f:
+                await update.message.reply_document(
+                    document=f,
+                    filename="compressed.pdf",
+                    caption="✅ Here is your compressed PDF"
+                )
 
-    with open(send_file, "rb") as f:
-        await update.message.reply_document(
-            document=f,
-            caption=caption
-        )
+        else:
+            await update.message.reply_text("❌ Compression failed. Please try again.")
 
-    # cleanup
-    if os.path.exists(file_path):
-        os.remove(file_path)
+    except Exception as e:
+        await update.message.reply_text("❌ Error compressing PDF.")
+        print("Compression Error:", e)
 
-    if os.path.exists(output):
-        os.remove(output)
+    finally:
+        # cleanup
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        if os.path.exists(output):
+            os.remove(output)
