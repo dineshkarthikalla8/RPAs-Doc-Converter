@@ -9,7 +9,7 @@ async def compress_pdf(update, file_path):
     await update.message.reply_text("🔄 Compressing PDF...")
 
     command = [
-        "/opt/homebrew/bin/gs",   # use full path
+        "/opt/homebrew/bin/gs",   # <-- replace with your path
         "-sDEVICE=pdfwrite",
         "-dCompatibilityLevel=1.4",
         "-dPDFSETTINGS=/screen",
@@ -24,14 +24,12 @@ async def compress_pdf(update, file_path):
         subprocess.run(command, check=True)
 
         if os.path.exists(output):
-
             with open(output, "rb") as f:
                 await update.message.reply_document(
                     document=f,
                     filename="compressed.pdf",
                     caption="✅ Here is your compressed PDF"
                 )
-
         else:
             await update.message.reply_text("❌ Compression failed.")
 
