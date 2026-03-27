@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import os
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from handlers.admin_handler import broadcast
 
 load_dotenv()
 
@@ -68,6 +69,7 @@ app.add_handler(
     MessageHandler(filters.TEXT & ~filters.COMMAND & ~menu_filter, receive_feedback)
 )
 
+app.add_handler(CommandHandler("broadcast", broadcast))
 
 print("Bot Running...")
 app.run_polling()
