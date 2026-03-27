@@ -72,8 +72,10 @@ app.add_handler(
 )
 
 app.add_handler(CommandHandler("broadcast", broadcast))
+app.add_handler(CommandHandler("stats", stats))   # ✅ FIXED POSITION
+
 
 print("Bot Running...")
 app.run_polling()
 
-app.add_handler(CommandHandler("stats", stats))
+
