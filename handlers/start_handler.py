@@ -1,6 +1,8 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ContextTypes
 from functions.user_store import save_user   # 👈 ADD THIS
+from functions.user_store import add_user
+
 
 keyboard = [
     ["Merge PDF", "Split PDF"],
@@ -21,3 +23,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "📂 RPA DOC CONVERTER\nSelect a tool:",
         reply_markup=reply_markup
     )
+async def start(update, context):
+    user = update.effective_user
+    add_user(user)
+
+    await update.message.reply_text("Welcome to DOC Converter Bot 🚀")
