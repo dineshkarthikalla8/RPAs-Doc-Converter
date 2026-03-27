@@ -1,9 +1,9 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from config import user_mode
-from functions.user_store import save_user 
+from functions.user_store import save_user   # ✅ ADD THIS
 
-ADMIN_ID = 8162100027   # <-- replace with your Telegram user ID
+ADMIN_ID = 8162100027
 
 
 async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -30,6 +30,9 @@ async def receive_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     user = update.effective_user
+
+    # ✅ ADD THIS (VERY IMPORTANT)
+    save_user(chat_id)
 
     message = f"""
 📩 New Feedback
