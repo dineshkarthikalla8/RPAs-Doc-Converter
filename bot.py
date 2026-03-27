@@ -11,6 +11,8 @@ import os
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from handlers.admin_handler import broadcast
+from handlers.admin_handler import broadcast, stats
+
 
 load_dotenv()
 
@@ -73,3 +75,5 @@ app.add_handler(CommandHandler("broadcast", broadcast))
 
 print("Bot Running...")
 app.run_polling()
+
+app.add_handler(CommandHandler("stats", stats))
