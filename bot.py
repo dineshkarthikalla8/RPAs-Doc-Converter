@@ -62,7 +62,7 @@ menu_filter = filters.TEXT & ~filters.COMMAND & filters.Regex(
 app.add_handler(MessageHandler(menu_filter, menu))
 
 
-# -------------------------
+# --------------------------
 # FEEDBACK MESSAGES
 # -------------------------
 app.add_handler(
