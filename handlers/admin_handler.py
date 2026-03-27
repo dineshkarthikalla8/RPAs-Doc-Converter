@@ -44,3 +44,21 @@ async def stats(update, context):
     await update.message.reply_text(
         f"📊 Bot Statistics\n\n👥 Total Users: {total_users}"
     )
+
+async def users_list(update, context):
+
+    if update.effective_user.id != ADMIN_ID:
+        return
+
+    users = get_users()
+
+    if not users:
+        await update.message.reply_text("No users yet.")
+        return
+
+    message = "👥 Users List:\n\n"
+
+    for user in users.values():
+        message += f"👤 {user['name']} (@{user['username']})\n🆔 {user['id']}\n\n"
+
+    await update.message.reply_text(message[:4000])  # Telegram limit
