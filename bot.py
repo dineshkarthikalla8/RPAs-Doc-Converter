@@ -12,6 +12,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from handlers.admin_handler import broadcast
 from handlers.admin_handler import broadcast, stats
+from handlers.admin_handler import broadcast, stats, users_list
 
 
 load_dotenv()
@@ -73,6 +74,7 @@ app.add_handler(
 
 app.add_handler(CommandHandler("broadcast", broadcast))
 app.add_handler(CommandHandler("stats", stats))   # ✅ FIXED POSITION
+app.add_handler(CommandHandler("users", users_list))
 
 
 print("Bot Running...")
