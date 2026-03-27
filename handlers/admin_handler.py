@@ -31,3 +31,16 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         f"✅ Sent: {success}\n❌ Failed: {failed}"
     )
+
+async def stats(update, context):
+
+    if update.effective_user.id != ADMIN_ID:
+        await update.message.reply_text("❌ Not authorized")
+        return
+
+    users = get_users()
+    total_users = len(users)
+
+    await update.message.reply_text(
+        f"📊 Bot Statistics\n\n👥 Total Users: {total_users}"
+    )
