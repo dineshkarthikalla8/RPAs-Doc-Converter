@@ -21,3 +21,14 @@ def get_users():
             return json.load(f)
     except:
         return []
+users = {}
+
+def add_user(user):
+    users[user.id] = {
+        "id": user.id,
+        "name": user.first_name,
+        "username": user.username
+    }
+
+def get_users():
+    return users
