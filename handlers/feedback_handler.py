@@ -1,16 +1,20 @@
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from config import user_mode
-from functions.user_store import save_user   # ✅ ADD THIS
+from functions.user_store import save_user
 
 ADMIN_ID = 8162100027
 
 
+# -------------------------
+# FEEDBACK BUTTON
+# -------------------------
 async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     chat_id = update.effective_chat.id
 
-    # set feedback mode
+    # enable feedback mode
     user_mode[chat_id] = "feedback"
 
     await update.message.reply_text(
@@ -18,11 +22,15 @@ async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+# -------------------------
+# RECEIVE FEEDBACK
+# -------------------------
 async def receive_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     chat_id = update.effective_chat.id
     text = update.message.text
 
+    # user must be in feedback mode
     if chat_id not in user_mode:
         return
 
@@ -31,14 +39,21 @@ async def receive_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user = update.effective_user
 
-    # ✅ ADD THIS (VERY IMPORTANT)
-    save_user(chat_id)
+    # SAVE USER
+    save_user(user)
+
+    # username handling
+    if user.username:
+        username = f"@{user.username}"
+    else:
+        username = "No username"
 
     message = f"""
-📩 New Feedback
+📩 NEW FEEDBACK
 
-👤 User: {user.first_name}
-🆔 ID: {chat_id}
+👤 Name: {user.first_name}
+📛 Username: {username}
+🆔 Telegram ID: {chat_id}
 
 💬 Message:
 {text}
@@ -50,9 +65,10 @@ async def receive_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text=message
     )
 
+    # reply to user
     await update.message.reply_text(
         "✅ Thank you for your feedback!"
     )
 
-    # exit feedback mode
+    # remove feedback mode
     user_mode.pop(chat_id, None)
