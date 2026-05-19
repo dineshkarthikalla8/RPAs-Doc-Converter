@@ -1,34 +1,49 @@
 import json
+import os
 
 FILE = "users.json"
 
-def save_user(user_id):
-    try:
-        with open(FILE, "r") as f:
-            users = set(json.load(f))
-    except:
-        users = set()
 
-    users.add(user_id)
+# -------------------------
+# LOAD USERS
+# -------------------------
+def load_users():
 
-    with open(FILE, "w") as f:
-        json.dump(list(users), f)
+    if not os.path.exists(FILE):
+        return []
 
-
-def get_users():
     try:
         with open(FILE, "r") as f:
             return json.load(f)
+
     except:
         return []
-users = {}
 
-def add_user(user):
-    users[user.id] = {
+
+# -------------------------
+# SAVE USER
+# -------------------------
+def save_user(user):
+
+    users = load_users()
+
+    # avoid duplicates
+    for u in users:
+        if u["id"] == user.id:
+            return
+
+    users.append({
         "id": user.id,
         "name": user.first_name,
         "username": user.username
-    }
+    })
 
+    with open(FILE, "w") as f:
+        json.dump(users, f, indent=4)
+
+
+# -------------------------
+# GET USERS
+# -------------------------
 def get_users():
-    return users
+    return load_users()

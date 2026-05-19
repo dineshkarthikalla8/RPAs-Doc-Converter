@@ -1,6 +1,8 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ContextTypes
 
+from functions.user_store import save_user
+
 # -------------------------
 # KEYBOARD BUTTONS
 # -------------------------
@@ -25,6 +27,10 @@ reply_markup = ReplyKeyboardMarkup(
 # START COMMAND
 # -------------------------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    # SAVE USER
+    user = update.effective_user
+    save_user(user)
 
     welcome_text = """
 🚀 Welcome to RPA Tech Club's Doc Converter

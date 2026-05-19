@@ -7,6 +7,12 @@ from handlers.range_handler import receive_range
 from handlers.done_handler import done
 from handlers.feedback_handler import receive_feedback
 
+from handlers.admin_handler import (
+    users_list,
+    stats,
+    broadcast
+)
+
 from dotenv import load_dotenv
 import os
 import threading
@@ -50,6 +56,11 @@ app = Application.builder().token(TOKEN).build()
 # -------------------------
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("done", done))
+
+# ADMIN COMMANDS
+app.add_handler(CommandHandler("users", users_list))
+app.add_handler(CommandHandler("stats", stats))
+app.add_handler(CommandHandler("broadcast", broadcast))
 
 # -------------------------
 # FILE UPLOADS
