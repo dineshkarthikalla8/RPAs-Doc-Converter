@@ -40,10 +40,11 @@ Select a tool from the menu below 👇
 📄 Merge PDF
 ✂️ Split PDF
 📦 Compress PDF
-🖼 PDF ↔ JPG
+📋 PDF → Word
 📑 Word → PDF
+🖼 PDF ↔ JPG
 
-💡 Built by RPA Tech Club
+💡 Built by Dinesh Karthik Alla- PRESIDENT, RPA TECH CLUB
 """
 
     await update.message.reply_text(
