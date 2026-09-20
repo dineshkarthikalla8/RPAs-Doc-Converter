@@ -1,21 +1,17 @@
 FROM python:3.11-slim
 
-# Install LibreOffice
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libreoffice \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends libreoffice && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+RUN which soffice
+RUN soffice --version
+
 WORKDIR /app
 
-# Install Python dependencies
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
-COPY . .
+COPY .
 
-# Start bot
 CMD ["python", "bot.py"]
